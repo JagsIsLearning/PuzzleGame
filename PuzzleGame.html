@@ -3,75 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Puzzle Input</title>
+    <style>
+        #inputContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        #imageDisplay {
+            width: 300px; /* Set your preferred width */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
 </head>
 <body>
-    <img id="GameRoom" src="" alt="Game Room" style="max-width: 100%; height: auto;">
+    <img id="imageDisplay" src="file:///C:/Users/mahal/Downloads/unnamed%20(1).png" >
 
-    <button type="button" id="LeftButton">Left</button>
-    <button type="button" id="RightButton">Right</button>
-    <button type="button" id="MiddleButton">Back</button>
-    <button type="button" id="FrontButton">Front</button>
-
-    <div id="PuzzleButtons" style="display: none;">
-        <button type="button" id="PuzzleButton1"></button>
-        <button type="button" id="PuzzleButton2"></button>
+    <div>
+        <button id="leftButton">Left</button>
+        <button id="rightButton">Right</button>
+        <button id="backButton">Back</button>
+        <button id="frontButton">Front</button>
     </div>
 
-    <div id="InputContainer" style="display: none;">
-        <input type="text" id="CodeInput" placeholder="Enter code here">
-        <button type="button" id="SubmitCode">Submit</button>
+    <div id="inputContainer">
+        <input type="number" id="codeInput" placeholder="Enter code">
+        <button id="submitCode">Submit Code</button>
     </div>
 
     <script>
-        const gameRoom = document.getElementById("GameRoom");
-        const puzzleButtons = document.getElementById("PuzzleButtons");
-        const puzzleButton1 = document.getElementById("PuzzleButton1");
-        const puzzleButton2 = document.getElementById("PuzzleButton2");
-        const inputContainer = document.getElementById("InputContainer");
-        const codeInput = document.getElementById("CodeInput");
-        const submitCode = document.getElementById("SubmitCode");
+        const imageDisplay = document.getElementById('imageDisplay');
+        const inputContainer = document.getElementById('inputContainer');
+        const codeInput = document.getElementById('codeInput');
+        const submitCode = document.getElementById('submitCode');
 
-        function showPuzzleButtons(label1, label2, imageSrc) {
-            puzzleButton1.textContent = label1;
-            puzzleButton2.textContent = label2;
-            gameRoom.src = imageSrc;
-            puzzleButtons.style.display = "block";
-            inputContainer.style.display = "none"; // Hide input initially
+        const images = {
+            front: 'file:///C:/Users/mahal/Downloads/unnamed%20(1).png',
+            left: 'file:///C:/Users/mahal/Downloads/New%20Piskel%20(3).png',
+            right: 'file:///C:/Users/mahal/Downloads/New%20Piskel%20(1).png',
+            back: 'file:///C:/Users/mahal/Downloads/New%20Piskel%20(2).png'
+        };
+
+        const correctCode = 1330; // Set your correct code here
+
+        document.getElementById('leftButton').onclick = function() {
+            imageDisplay.src = images.left;
+            inputContainer.style.display = "none"; // Hide input
+        };
+
+        document.getElementById('rightButton').onclick = function() {
+            imageDisplay.src = images.right;
+            inputContainer.style.display = "none"; // Hide input
+        };
+
+        document.getElementById('backButton').onclick = function() {
+            imageDisplay.src = images.back;
+            inputContainer.style.display = "none"; // Hide input
+        };
+
+        document.getElementById('frontButton').onclick = function() {
+            imageDisplay.src = images.front;
+            showInput();
+        };
+
+        function showInput() {
+            inputContainer.style.display = "block";
+            codeInput.value = ''; // Clear previous input
+            codeInput.focus();
         }
 
-        function handlePuzzleButtonClick(buttonLabel) {
-            inputContainer.style.display = "block"; // Show the input container
-            codeInput.value = ""; // Clear previous input
-            submitCode.onclick = function() {
-                alert(`Code for ${buttonLabel}: ${codeInput.value}`);
-                inputContainer.style.display = "none"; // Hide input after submission
-            };
-        }
-
-        document.getElementById("LeftButton").addEventListener("click", function() {
-            showPuzzleButtons("Left Puzzle 1", "Left Puzzle 2", "LeftPuzzle");
-            puzzleButton1.onclick = () => handlePuzzleButtonClick(puzzleButton1.textContent);
-            puzzleButton2.onclick = () => handlePuzzleButtonClick(puzzleButton2.textContent);
-        });
-
-        document.getElementById("RightButton").addEventListener("click", function() {
-            showPuzzleButtons("Right Puzzle 1", "Right Puzzle 2", "RightPuzzle");
-            puzzleButton1.onclick = () => handlePuzzleButtonClick(puzzleButton1.textContent);
-            puzzleButton2.onclick = () => handlePuzzleButtonClick(puzzleButton2.textContent);
-        });
-
-        document.getElementById("MiddleButton").addEventListener("click", function() {
-            showPuzzleButtons("Back Puzzle 1", "Back Puzzle 2", "BackPuzzle");
-            puzzleButton1.onclick = () => handlePuzzleButtonClick(puzzleButton1.textContent);
-            puzzleButton2.onclick = () => handlePuzzleButtonClick(puzzleButton2.textContent);
-        });
-
-        document.getElementById("FrontButton").addEventListener("click", function() {
-            showPuzzleButtons("Front Puzzle 1", "Front Puzzle 2", "FrontPuzzle");
-            puzzleButton1.onclick = () => handlePuzzleButtonClick(puzzleButton1.textContent);
-            puzzleButton2.onclick = () => handlePuzzleButtonClick(puzzleButton2.textContent);
-        });
+        submitCode.onclick = function() {
+            const enteredCode = parseInt(codeInput.value, 10);
+            if (enteredCode === correctCode) {
+                alert("Congratulations! You've ESCAPED!");
+            } else {
+                alert("Incorrect code. Try again!");
+            }
+        };
     </script>
 </body>
 </html>
